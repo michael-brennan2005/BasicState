@@ -1,6 +1,6 @@
 {
   "name": "@rbxts/basicstate",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Typings for csqrl's BasicState module.",
   "main": "out/init.lua",
   "scripts": {
