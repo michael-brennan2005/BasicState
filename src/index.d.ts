@@ -61,7 +61,7 @@ interface State<T> {
 	 * with Roblox's :GetPropertyChangedSignal() method, which returns a single
 	 * RBXScriptConnection
      */
-    GetChangedSignal<K extends keyof T>(Key: K): RBXScriptSignal<(OldValue: T[K], NewValue: T[K]) => void>,
+    GetChangedSignal<K extends keyof T>(Key: K): RBXScriptSignal<(NewValue: T[K], OldValue: T[K], OldState: Readonly<T>) => void>,
 
     /**
      * Wraps a Roact component and injects the given keys into the component's state.
