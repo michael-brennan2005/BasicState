@@ -5,7 +5,7 @@ interface State<T> {
      * Retrieve and return a value from the store. Optionally takes a DefaultValue
 	 * parameter, which will be returned if the stored value is nil
      */
-    Get<K extends keyof T>(Key: K, DefaultValue?: T[K]): Readonly<K>,
+    Get<K extends keyof T>(Key: K, DefaultValue?: T[K]): Readonly<T[K]>,
 
     /**
      * Sets a value in the state and triggers Changed events. Will not fire
