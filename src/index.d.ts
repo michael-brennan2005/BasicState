@@ -28,7 +28,7 @@ interface State<T> {
 	 * which will be added to or mutated in the store. This is a deep copy, so
 	 * original data will not be overwritten unless specified.
      */
-    SetState(StateTable: T): void,
+    SetState(StateTable: Partial<T>): void,
 
     /**
      * Allows a stored boolean value to be toggled between true and false. Will throw
@@ -61,13 +61,17 @@ interface State<T> {
 	 * with Roblox's :GetPropertyChangedSignal() method, which returns a single
 	 * RBXScriptConnection
      */
-    GetChangedSignal<K extends keyof T>(Key: K): RBXScriptSignal<(OldValue: T[K], NewValue: T[K]) => void>,
+    GetChangedSignal<K extends keyof T>(Key: K): RBXScriptSignal<(
+        NewValue: T[K],
+        OldValue: T[K],
+        OldState: Readonly<T>) => void
+    >,
 
     /**
      * Wraps a Roact component and injects the given keys into the component's state.
 	 * The component will be re-rendered when State changes.
      */
-    Roact<K extends keyof T>(Component: Roact.Component, Keys?: K[]): Roact.Component,
+    Roact<K extends keyof T, C extends Roact.ComponentConstructor<any>>(Component: C, Keys?: K[]): C,
 
     /**
      * Destroys all BindableEvents created using GetChangedSignal, the .Changed event's
@@ -75,9 +79,12 @@ interface State<T> {
      */
     Destroy(): void,
 
-    Changed: RBXScriptSignal,
+    Changed: RBXScriptSignal<(
+        OldState: Readonly<T>,
+        ChangedKey: keyof T) => void
+    >,
     ProtectType: boolean,
-    None: Instance
+    None: StateConstructor["None"];
 }
 
 interface StateConstructor {
@@ -85,6 +92,8 @@ interface StateConstructor {
      * Create and returns new BasicState instance
      */
     new<T>(InitialState: T): State<T>
+
+    readonly None: symbol;
 }
 
 declare const BasicState: StateConstructor;
