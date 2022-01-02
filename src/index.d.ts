@@ -1,6 +1,6 @@
 import Roact from "@rbxts/roact";
 
-interface State<T = {}> {
+interface BasicState<T = {}> {
     /**
      * Retrieve and return a value from the store. Optionally takes a DefaultValue
 	 * parameter, which will be returned if the stored value is nil
@@ -123,14 +123,14 @@ interface State<T = {}> {
      * which was previously impossible without. It can be used directly with ```:Set```,
      * ```:SetState``` or ```:RawSet```, or by using ```:Delete``` to remove a single key.
      */
-    None: StateConstructor["None"];
+    None: BasicStateConstructor["None"];
 }
 
-interface StateConstructor {
+interface BasicStateConstructor {
     /**
      * Create and returns new BasicState instance
      */
-    new<T>(InitialState?: T): State<T>
+    new<T>(InitialState?: T): BasicState<T>
 
     /**
      * Lua is unable to determine whether a value in a table is ```nil``` or ```undefined```,
@@ -149,5 +149,5 @@ interface StateConstructor {
  * 
  * Think Rodux, but much more simple.
  */
-declare const BasicState: StateConstructor;
+declare const BasicState: BasicStateConstructor;
 export = BasicState;
